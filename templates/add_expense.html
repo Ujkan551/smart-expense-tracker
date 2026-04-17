@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card p-4 shadow-sm">
+
+            <h2 class="fw-bold mb-4">Add Expense</h2>
+
+            <!-- Voice Button -->
+            <div class="text-center mb-4">
+                <button id="voiceBtn" class="btn btn-outline-dark btn-lg px-5" onclick="startVoice()">
+                    🎤 Speak to Add
+                </button>
+                <p id="voiceStatus" class="text-muted mt-2 small"></p>
+            </div>
+
+            <form action="/add" method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Amount (₹)</label>
+                    <input type="number" step="0.01" name="amount" id="amount"
+                           class="form-control" placeholder="e.g. 250" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category</label>
+                    <select name="category" id="category" class="form-select" required>
+                        <option value="">-- Select Category --</option>
+                        <option>Food</option>
+                        <option>Transport</option>
+                        <option>Shopping</option>
+                        <option>Entertainment</option>
+                        <option>Rent</option>
+                        <option>Health</option>
+                        <option>Education</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Note</label>
+                    <input type="text" name="note" id="note"
+                           class="form-control" placeholder="e.g. Lunch at canteen">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">UPI Tag</label>
+                    <input type="text" name="tag" id="tag"
+                           class="form-control" placeholder="e.g. #food #upi #petrol">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Date</label>
+                    <input type="date" name="date" id="date"
+                           class="form-control" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Currency</label>
+                    <select name="currency" class="form-select">
+                        <option value="INR" selected>INR - Indian Rupee ₹</option>
+                        <option value="USD">USD - US Dollar $</option>
+                        <option value="EUR">EUR - Euro €</option>
+                        <option value="GBP">GBP - British Pound £</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 py-2 fw-bold">
+                    Save Expense
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/voice.js') }}"></script>
+
+{% endblock %}

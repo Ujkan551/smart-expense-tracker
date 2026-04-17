@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Dashboard</h2>
+    <a href="/add" class="btn btn-dark">+ Add Expense</a>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center p-3 shadow-sm">
+            <p class="text-muted mb-1">Total Expenses</p>
+            <h3 class="fw-bold">₹ {{ expenses | sum(attribute='amount') | round(2) }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 shadow-sm">
+            <p class="text-muted mb-1">Total Transactions</p>
+            <h3 class="fw-bold">{{ expenses | length }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 shadow-sm">
+            <p class="text-muted mb-1">Latest Entry</p>
+            <h3 class="fw-bold">
+                {% if expenses %}
+                    {{ expenses[0]['date'] }}
+                {% else %}
+                    No data
+                {% endif %}
+            </h3>
+        </div>
+    </div>
+</div>
+
+<!-- Chart -->
+<div class="card p-3 shadow-sm mb-4">
+    <h5 class="fw-bold mb-3">Spending by Category</h5>
+    <canvas id="categoryChart" height="100"></canvas>
+</div>
+
+<!-- Expenses Table -->
+<div class="card p-3 shadow-sm">
+    <h5 class="fw-bold mb-3">All Expenses</h5>
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Note</th>
+                <th>Tag</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in expenses %}
+            <tr>
+                <td>{{ e['date'] }}</td>
+                <td>{{ e['category'] }}</td>
+                <td>{{ e['note'] }}</td>
+                <td><span class="badge bg-secondary">{{ e['tag'] }}</span></td>
+                <td>{{ e['amount'] }}</td>
+                <td>{{ e['currency'] }}</td>
+                <td>
+                    <a href="/delete/{{ e['id'] }}"
+                       onclick="return confirm('Delete this expense?')"
+                       class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-center text-muted">No expenses yet. Add one!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

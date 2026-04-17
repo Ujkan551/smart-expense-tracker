@@ -1,0 +1,1 @@
+EXCHANGE_API_KEY = '416e11a8bbb2cda47cc00f41'
